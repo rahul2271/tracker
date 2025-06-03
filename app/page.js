@@ -268,7 +268,7 @@ export default function Page() {
           Your trusted medicine tracker & reminder system for better health management.
         </p>
         <p className="mt-1 text-sm text-green-400 italic">
-          Privacy assured. Data stored securely with you.
+          Powered by Rahul Chauhan
         </p>
       </header>
 
