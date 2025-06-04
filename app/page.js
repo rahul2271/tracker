@@ -364,37 +364,28 @@ export default function Page() {
                 {medicines.map((med) => (
                   <li
   key={med.id}
-  className="p-4 rounded bg-amber-200 border border-amber-400 shadow-inner animate-fadeIn flex flex-col gap-4 transition-all duration-300"
+  className="p-4 rounded bg-amber-200 border border-amber-400 shadow-inner space-y-4"
   aria-label={`Medicine ${med.name}`}
 >
-  {/* Medicine Info */}
-  <div className="flex flex-wrap justify-center gap-5 text-center">
-    <div className="min-w-0 max-w-[200px] sm:max-w-[250px] md:max-w-[300px] text-center">
-  <p 
-    className="text-xl font-bold break-words truncate sm:whitespace-normal sm:truncate-none"
-    title={med.name} // Tooltip on hover
-  >
-    {med.name}
-  </p>
-</div>
-
-    <div className="min-w-0 max-w-[150px]">
-      <p className="text-md font-semibold text-amber-700 break-words">
-        Dose:<br />{med.dose}
-      </p>
-    </div>
-    <div className="min-w-0 max-w-[150px]">
-      <p className="text-md font-semibold text-amber-700 break-words">
-        Time:<br />{med.time}
-      </p>
+  {/* Medicine Info Section */}
+  <div className="text-center break-words max-w-full">
+    <p
+      className="text-2xl font-bold text-wrap break-words truncate sm:whitespace-normal sm:truncate-none"
+      title={med.name}
+    >
+      {med.name}
+    </p>
+    <div className="mt-2 space-y-1 text-amber-700 font-semibold text-sm sm:text-md">
+      <p>Dose: {med.dose}</p>
+      <p>Time: {med.time}</p>
     </div>
   </div>
 
-  {/* Action Buttons */}
-  <div className="flex flex-wrap justify-center items-center gap-3">
+  {/* Buttons Section */}
+  <div className="flex flex-wrap justify-center items-center gap-3 pt-2">
     <button
       onClick={() => toggleTaken(med.id)}
-      className={`px-4 py-2 text-[15px] rounded font-semibold shadow-md transform transition-all duration-200 hover:scale-105 ${
+      className={`px-4 py-2 text-[15px] rounded font-semibold transition shadow-md ${
         med.taken
           ? "bg-green-600 hover:bg-green-500 text-white"
           : "bg-yellow-500 hover:bg-yellow-400 text-amber-900"
@@ -402,27 +393,30 @@ export default function Page() {
       aria-pressed={med.taken}
       aria-label={med.taken ? "Mark as not taken" : "Mark as taken"}
     >
-      {med.taken ? "Taken ✅" : "Mark Taken"}
+      {med.taken ? "Taken" : "Mark Taken"}
     </button>
 
     <button
       onClick={() => deleteMedicine(med.id)}
-      className="px-4 py-2 text-[15px] rounded bg-red-500 hover:bg-red-400 text-white font-semibold shadow-md transform transition-all duration-200 hover:scale-105"
+      className="px-4 py-2 text-[15px] rounded bg-red-500 hover:bg-red-400 text-white font-semibold shadow-md"
       aria-label={`Delete medicine ${med.name}`}
     >
-      Delete 🗑️
+      Delete
     </button>
   </div>
 
-  {/* Reminder Button */}
-  <button
-    onClick={sendReminderEmailForAll}
-    className="px-4 py-2 text-[15px] rounded bg-indigo-600 hover:bg-indigo-500 text-white font-semibold shadow-md transition-all duration-200 hover:scale-105 mx-auto"
-    aria-label="Send reminder emails for all medicines"
-  >
-    Send Reminder Emails ✉️
-  </button>
+  {/* Reminder Email Button */}
+  <div className="pt-2 text-center">
+    <button
+      onClick={sendReminderEmailForAll}
+      className="px-4 py-2 text-[15px] rounded bg-indigo-600 hover:bg-indigo-500 text-white font-semibold shadow-md"
+      aria-label="Send reminder emails for all medicines"
+    >
+      Send Reminder Emails ✉️
+    </button>
+  </div>
 </li>
+
 
                 ))}
               </ul>
