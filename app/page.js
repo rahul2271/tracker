@@ -363,50 +363,61 @@ export default function Page() {
               <ul className="space-y-5">
                 {medicines.map((med) => (
                   <li
-                    key={med.id}
-                    className=" justify-between items-center p-4 rounded bg-amber-200 border border-amber-400 shadow-inner"
-                    aria-label={`Medicine ${med.name}`}
-                  >
-                    <div className="flex flex-wrap gap-5 justify-center mx-auto max-w-full p-2">
-  <div className="min-w-0">
-    <p className="text-2xl font-bold break-words">{med.name}</p>
+  key={med.id}
+  className="p-4 rounded bg-amber-200 border border-amber-400 shadow-inner animate-fadeIn flex flex-col gap-4 transition-all duration-300"
+  aria-label={`Medicine ${med.name}`}
+>
+  {/* Medicine Info */}
+  <div className="flex flex-wrap justify-center gap-5 text-center">
+    <div className="min-w-0 max-w-[150px]">
+      <p className="text-2xl font-bold break-words">{med.name}</p>
+    </div>
+    <div className="min-w-0 max-w-[150px]">
+      <p className="text-md font-semibold text-amber-700 break-words">
+        Dose:<br />{med.dose}
+      </p>
+    </div>
+    <div className="min-w-0 max-w-[150px]">
+      <p className="text-md font-semibold text-amber-700 break-words">
+        Time:<br />{med.time}
+      </p>
+    </div>
   </div>
-  <div className="min-w-0">
-    <p className="text-md font-semibold text-amber-700 break-words">
-      Dose:<br />{med.dose}
-    </p>
-  </div>
-  <div className="min-w-0">
-    <p className="text-md font-semibold text-amber-700 break-words">
-      Time:<br />{med.time}
-    </p>
-  </div>
-</div>
 
-                    <div className="flex items-center place-content-center mx-auto pt-4 gap-3">
-                      <button
-                        onClick={() => toggleTaken(med.id)}
-                        className={`px-4 py-2 text-[15px] rounded font-semibold transition shadow-md
-                          ${
-                            med.taken
-                              ? " bg-green-600 hover:bg-green-500 text-white"
-                              : "bg-yellow-500 hover:bg-yellow-400 text-amber-900"
-                          }
-                        `}
-                        aria-pressed={med.taken}
-                        aria-label={med.taken ? "Mark as not taken" : "Mark as taken"}
-                      >
-                        {med.taken ? "Taken " : "Mark Taken "}
-                      </button>
-                      <button
-                        onClick={() => deleteMedicine(med.id)}
-                        className="px-4  text-[15px] py-2 rounded bg-red-500 hover:bg-red-400 text-white font-semibold shadow-md"
-                        aria-label={`Delete medicine ${med.name}`}
-                      >
-                        Delete 
-                      </button>
-                    </div>
-                  </li>
+  {/* Action Buttons */}
+  <div className="flex flex-wrap justify-center items-center gap-3">
+    <button
+      onClick={() => toggleTaken(med.id)}
+      className={`px-4 py-2 text-[15px] rounded font-semibold shadow-md transform transition-all duration-200 hover:scale-105 ${
+        med.taken
+          ? "bg-green-600 hover:bg-green-500 text-white"
+          : "bg-yellow-500 hover:bg-yellow-400 text-amber-900"
+      }`}
+      aria-pressed={med.taken}
+      aria-label={med.taken ? "Mark as not taken" : "Mark as taken"}
+    >
+      {med.taken ? "Taken ✅" : "Mark Taken"}
+    </button>
+
+    <button
+      onClick={() => deleteMedicine(med.id)}
+      className="px-4 py-2 text-[15px] rounded bg-red-500 hover:bg-red-400 text-white font-semibold shadow-md transform transition-all duration-200 hover:scale-105"
+      aria-label={`Delete medicine ${med.name}`}
+    >
+      Delete 🗑️
+    </button>
+  </div>
+
+  {/* Reminder Button */}
+  <button
+    onClick={sendReminderEmailForAll}
+    className="px-4 py-2 text-[15px] rounded bg-indigo-600 hover:bg-indigo-500 text-white font-semibold shadow-md transition-all duration-200 hover:scale-105 mx-auto"
+    aria-label="Send reminder emails for all medicines"
+  >
+    Send Reminder Emails ✉️
+  </button>
+</li>
+
                 ))}
               </ul>
             </div>
