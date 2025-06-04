@@ -264,7 +264,7 @@ export default function Page() {
       {/* Branding Header */}
       <header className="mb-8 text-center">
         <h1 className="text-5xl font-extrabold mb-2" style={{ fontFamily: "'Georgia', serif" }}>
-          YuktiTracker 🌿
+          YuktiTracker 
         </h1>
         <p className="text-lg max-w-md mx-auto text-amber-700 italic">
           Ayurveda-inspired medicine tracker for your daily health and wellness.
@@ -285,7 +285,7 @@ export default function Page() {
               Welcome! Please login or sign up
             </h2>
             <label className="block mb-2 font-medium" htmlFor="emailInput">
-              📧 Email
+               Email
             </label>
             <input
               id="emailInput"
@@ -302,7 +302,7 @@ export default function Page() {
             </small>
 
             <label className="block mb-2 font-medium" htmlFor="passwordInput">
-              🔒 Password
+               Password
             </label>
             <input
               id="passwordInput"
@@ -340,7 +340,7 @@ export default function Page() {
         <>
           <section className="mb-8 p-5 bg-amber-100 rounded-lg shadow-md">
             <div className="flex justify-between items-center mb-4">
-              <p className="font-semibold text-lg" aria-live="polite">
+              <p className="font-semibold text-md" aria-live="polite">
                 🙏 Welcome, <span className="italic">{user.email}</span>
               </p>
               <button
@@ -354,7 +354,7 @@ export default function Page() {
 
             {/* Medicine List */}
             <div>
-              <h2 className="text-3xl font-semibold mb-4 text-amber-800" style={{ fontFamily: "'Georgia', serif" }}>
+              <h2 className="text-xl font-semibold mb-4 text-amber-800" style={{ fontFamily: "'Georgia', serif" }}>
                 Your Ayurvedic Medicines 🌿
               </h2>
               {medicines.length === 0 && (
@@ -364,21 +364,21 @@ export default function Page() {
                 {medicines.map((med) => (
                   <li
                     key={med.id}
-                    className="flex justify-between items-center p-4 rounded bg-amber-200 border border-amber-400 shadow-inner"
+                    className=" justify-between items-center p-4 rounded bg-amber-200 border border-amber-400 shadow-inner"
                     aria-label={`Medicine ${med.name}`}
                   >
-                    <div>
-                      <p className="text-xl font-semibold">{med.name}</p>
-                      <p className="text-md text-amber-700">Dose: {med.dose}</p>
-                      <p className="text-md text-amber-700">Time: {med.time}</p>
+                    <div className="flex gap-5 place-content-center mx-auto">
+                      <p className="text-2xl font-bold">{med.name}</p>
+                      <p className="text-md font-semibold text-amber-700">Dose:<br></br> {med.dose}</p>
+                      <p className="text-md  font-semibold text-amber-700">Time:<br></br> {med.time}</p>
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center place-content-center mx-auto pt-4 gap-3">
                       <button
                         onClick={() => toggleTaken(med.id)}
-                        className={`px-4 py-2 rounded font-semibold transition shadow-md
+                        className={`px-4 py-2 text-[15px] rounded font-semibold transition shadow-md
                           ${
                             med.taken
-                              ? "bg-green-600 hover:bg-green-500 text-white"
+                              ? " bg-green-600 hover:bg-green-500 text-white"
                               : "bg-yellow-500 hover:bg-yellow-400 text-amber-900"
                           }
                         `}
@@ -389,7 +389,7 @@ export default function Page() {
                       </button>
                       <button
                         onClick={() => deleteMedicine(med.id)}
-                        className="px-4 py-2 rounded bg-red-500 hover:bg-red-400 text-white font-semibold shadow-md"
+                        className="px-4  text-[15px] py-2 rounded bg-red-500 hover:bg-red-400 text-white font-semibold shadow-md"
                         aria-label={`Delete medicine ${med.name}`}
                       >
                         Delete ❌
