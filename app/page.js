@@ -367,11 +367,22 @@ export default function Page() {
                     className=" justify-between items-center p-4 rounded bg-amber-200 border border-amber-400 shadow-inner"
                     aria-label={`Medicine ${med.name}`}
                   >
-                    <div className="flex gap-5 place-content-center mx-auto">
-                      <p className="text-2xl font-bold">{med.name}</p>
-                      <p className="text-md font-semibold text-amber-700">Dose:<br></br> {med.dose}</p>
-                      <p className="text-md  font-semibold text-amber-700">Time:<br></br> {med.time}</p>
-                    </div>
+                    <div className="flex flex-wrap gap-5 justify-center mx-auto max-w-full p-2">
+  <div className="min-w-0">
+    <p className="text-2xl font-bold break-words">{med.name}</p>
+  </div>
+  <div className="min-w-0">
+    <p className="text-md font-semibold text-amber-700 break-words">
+      Dose:<br />{med.dose}
+    </p>
+  </div>
+  <div className="min-w-0">
+    <p className="text-md font-semibold text-amber-700 break-words">
+      Time:<br />{med.time}
+    </p>
+  </div>
+</div>
+
                     <div className="flex items-center place-content-center mx-auto pt-4 gap-3">
                       <button
                         onClick={() => toggleTaken(med.id)}
