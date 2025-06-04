@@ -369,9 +369,15 @@ export default function Page() {
 >
   {/* Medicine Info */}
   <div className="flex flex-wrap justify-center gap-5 text-center">
-    <div className="min-w-0 max-w-[150px]">
-      <p className="text-2xl font-bold break-words">{med.name}</p>
-    </div>
+    <div className="min-w-0 max-w-[200px] sm:max-w-[250px] md:max-w-[300px] text-center">
+  <p 
+    className="text-xl font-bold break-words truncate sm:whitespace-normal sm:truncate-none"
+    title={med.name} // Tooltip on hover
+  >
+    {med.name}
+  </p>
+</div>
+
     <div className="min-w-0 max-w-[150px]">
       <p className="text-md font-semibold text-amber-700 break-words">
         Dose:<br />{med.dose}
