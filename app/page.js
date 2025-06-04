@@ -345,7 +345,7 @@ export default function Page() {
               </p>
               <button
                 onClick={handleLogout}
-                className="px-5 py-2 rounded bg-red-500 hover:bg-red-400 transition text-white font-semibold shadow-md"
+                className="text-black font-semibold "
                 aria-label="Logout"
               >
                 Logout
@@ -355,7 +355,7 @@ export default function Page() {
             {/* Medicine List */}
             <div>
               <h2 className="text-xl font-semibold mb-4 text-amber-800" style={{ fontFamily: "'Georgia', serif" }}>
-                Your Ayurvedic Medicines 🌿
+                Your Ayurvedic Medicines 
               </h2>
               {medicines.length === 0 && (
                 <p className="text-amber-700 italic">You have no medicines added yet.</p>
@@ -385,14 +385,14 @@ export default function Page() {
                         aria-pressed={med.taken}
                         aria-label={med.taken ? "Mark as not taken" : "Mark as taken"}
                       >
-                        {med.taken ? "Taken ✅" : "Mark Taken 🌿"}
+                        {med.taken ? "Taken " : "Mark Taken "}
                       </button>
                       <button
                         onClick={() => deleteMedicine(med.id)}
                         className="px-4  text-[15px] py-2 rounded bg-red-500 hover:bg-red-400 text-white font-semibold shadow-md"
                         aria-label={`Delete medicine ${med.name}`}
                       >
-                        Delete ❌
+                        Delete 
                       </button>
                     </div>
                   </li>
@@ -403,7 +403,7 @@ export default function Page() {
 
           {/* Add New Medicine */}
           <section className="mb-8 p-5 bg-amber-100 rounded-lg shadow-md" aria-label="Add new medicine form">
-            <h2 className="text-3xl font-semibold mb-4 text-amber-800" style={{ fontFamily: "'Georgia', serif" }}>
+            <h2 className="text-2xl font-semibold mb-4 text-amber-800" style={{ fontFamily: "'Georgia', serif" }}>
               Add New Medicine 🌸
             </h2>
             <p className="mb-6 text-amber-700 italic max-w-lg">
