@@ -122,9 +122,9 @@ export default function Page() {
   }
 
   function sendBrowserNotification(med) {
-    const title = "Medicine Reminder";
+    const title = "🌿 Ayurvedic Reminder";
     const options = {
-      body: `Take ${med.name} (${med.dose}) at ${med.time}`,
+      body: `Please take your medicine: ${med.name} (${med.dose}) at ${med.time}`,
       icon: "/pill-icon.png",
     };
 
@@ -150,17 +150,17 @@ export default function Page() {
 
   async function handleSignUp() {
     if (!email || !password) {
-      toast.error("Email & password required");
+      toast.error("Please enter both Email & Password");
       return;
     }
     try {
       setLoading(true);
       const cred = await createUserWithEmailAndPassword(auth, email, password);
       await setDoc(doc(db, "patients", cred.user.uid), { medicines: defaultMedicines });
-      toast.success("Sign up successful!");
+      toast.success("🌸 Sign up successful! Welcome to YuktiTracker.");
       setError("");
     } catch (err) {
-      toast.error(err.message || "Failed to sign up");
+      toast.error("Oops! " + (err.message || "Failed to sign up"));
     } finally {
       setLoading(false);
     }
@@ -168,16 +168,16 @@ export default function Page() {
 
   async function handleLogin() {
     if (!email || !password) {
-      toast.error("Email & password required");
+      toast.error("Please enter both Email & Password");
       return;
     }
     try {
       setLoading(true);
       await signInWithEmailAndPassword(auth, email, password);
-      toast.success("Logged in successfully!");
+      toast.success("🌿 Logged in successfully!");
       setError("");
     } catch {
-      toast.error("Invalid credentials");
+      toast.error("Invalid email or password. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -186,7 +186,7 @@ export default function Page() {
   function handleLogout() {
     signOut(auth);
     clearAllTimers();
-    toast.info("Logged out");
+    toast.info("You have been logged out. Stay healthy 🌱");
   }
 
   async function toggleTaken(id) {
@@ -197,14 +197,14 @@ export default function Page() {
   }
 
   async function addMedicine() {
-    if (!newName || !newDose || !newTime) {
-      toast.error("Name, dose & time required");
+    if (!newName.trim() || !newDose.trim() || !newTime) {
+      toast.error("Please fill in all fields to add a medicine.");
       return;
     }
     const newMed = {
       id: Date.now().toString(),
-      name: newName,
-      dose: newDose,
+      name: newName.trim(),
+      dose: newDose.trim(),
       time: newTime,
       taken: false,
     };
@@ -215,7 +215,7 @@ export default function Page() {
     setNewTime("08:00");
     setError("");
     if (user) await updateDoc(doc(db, "patients", user.uid), { medicines: updated });
-    toast.success("Medicine added");
+    toast.success("🌼 Medicine added successfully!");
   }
 
   async function deleteMedicine(id) {
@@ -223,12 +223,12 @@ export default function Page() {
     const updated = medicines.filter((m) => m.id !== id);
     setMedicines(updated);
     await updateDoc(doc(db, "patients", user.uid), { medicines: updated });
-    toast.success("Medicine deleted");
+    toast.success("Medicine removed. Take care!");
   }
 
   async function sendReminderEmailForAll() {
     if (!user || !medicines || medicines.length === 0) {
-      toast.error("No medicines to send reminders for.");
+      toast.error("No medicines found to send reminders.");
       return;
     }
 
@@ -254,154 +254,259 @@ export default function Page() {
       }
     }
 
-    toast.success("Reminder emails sent successfully!");
+    toast.success("🌟 Reminder emails sent successfully!");
   }
 
   return (
-    <main className="max-w-md mx-auto p-4 font-sans bg-gray-900 min-h-screen text-gray-100">
+    <main className="max-w-lg mx-auto p-6 font-sans bg-amber-50 min-h-screen text-amber-900">
       <ToastContainer position="top-right" autoClose={5000} />
 
       {/* Branding Header */}
-      <header className="mb-6 text-center">
-        <h1 className="text-4xl font-extrabold text-white mb-2">YuktiTracker</h1>
-        <p className="text-gray-400">
-          Your trusted medicine tracker & reminder system for better health management.
+      <header className="mb-8 text-center">
+        <h1 className="text-5xl font-extrabold mb-2" style={{ fontFamily: "'Georgia', serif" }}>
+          YuktiTracker 🌿
+        </h1>
+        <p className="text-lg max-w-md mx-auto text-amber-700 italic">
+          Ayurveda-inspired medicine tracker for your daily health and wellness.
         </p>
-        <p className="mt-1 text-sm text-green-400 italic">
-          Powered by Rahul Chauhan
-        </p>
+        <p className="mt-1 text-sm font-bold font-poppins">
+  
+</p>
+
       </header>
 
       {!user ? (
         <>
-          <div className="mb-4 space-y-3">
+          <section
+            className="mb-6 p-5 bg-amber-100 rounded-lg shadow-md"
+            aria-label="Authentication form"
+          >
+            <h2 className="text-2xl font-semibold mb-4 text-amber-800" style={{ fontFamily: "'Georgia', serif" }}>
+              Welcome! Please login or sign up
+            </h2>
+            <label className="block mb-2 font-medium" htmlFor="emailInput">
+              📧 Email
+            </label>
             <input
+              id="emailInput"
               type="email"
-              placeholder="Email"
+              placeholder="example@mail.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 rounded bg-gray-800 text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
+              className="w-full p-4 mb-4 rounded border border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-600 text-amber-900 font-medium"
+              aria-describedby="emailHelp"
+              autoComplete="email"
             />
+            <small id="emailHelp" className="block mb-4 text-amber-600">
+              Use your email to keep your medicines safe.
+            </small>
+
+            <label className="block mb-2 font-medium" htmlFor="passwordInput">
+              🔒 Password
+            </label>
             <input
+              id="passwordInput"
               type="password"
-              placeholder="Password"
+              placeholder="At least 6 characters"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 rounded bg-gray-800 text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
+              className="w-full p-4 mb-6 rounded border border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-600 text-amber-900 font-medium"
+              aria-describedby="passwordHelp"
+              autoComplete="current-password"
             />
-            <div className="flex justify-between">
+            <small id="passwordHelp" className="block mb-6 text-amber-600">
+              Choose a secure password to protect your info.
+            </small>
+
+            <div className="flex gap-4">
               <button
                 onClick={handleLogin}
                 disabled={loading}
-                className="w-1/2 mr-2 py-3 rounded bg-purple-700 hover:bg-purple-600 transition text-white font-semibold"
+                className="flex-grow py-4 rounded bg-amber-700 hover:bg-amber-600 transition text-white font-bold shadow-md"
               >
                 Login
               </button>
               <button
                 onClick={handleSignUp}
                 disabled={loading}
-                className="w-1/2 ml-2 py-3 rounded bg-green-600 hover:bg-green-500 transition text-white font-semibold"
+                className="flex-grow py-4 rounded bg-green-600 hover:bg-green-500 transition text-white font-bold shadow-md"
               >
                 Sign Up
               </button>
             </div>
-          </div>
-          {error && <p className="text-red-500 mb-4">{error}</p>}
+          </section>
         </>
       ) : (
         <>
-          <div className="mb-6 flex justify-between items-center">
-            <p className="font-semibold">Logged in as: {user.email}</p>
-            <button
-              onClick={handleLogout}
-              className="px-4 py-2 rounded bg-red-600 hover:bg-red-500 transition text-white font-semibold"
-            >
-              Logout
-            </button>
-          </div>
+          <section className="mb-8 p-5 bg-amber-100 rounded-lg shadow-md">
+            <div className="flex justify-between items-center mb-4">
+              <p className="font-semibold text-lg" aria-live="polite">
+                🙏 Welcome, <span className="italic">{user.email}</span>
+              </p>
+              <button
+                onClick={handleLogout}
+                className="px-5 py-2 rounded bg-red-500 hover:bg-red-400 transition text-white font-semibold shadow-md"
+                aria-label="Logout"
+              >
+                Logout
+              </button>
+            </div>
 
-          {/* Medicine List */}
-          <section className="mb-6">
-            <h2 className="text-2xl font-bold mb-3">Your Medicines</h2>
-            {medicines.length === 0 && (
-              <p className="text-gray-400">No medicines added yet.</p>
-            )}
-            <ul className="space-y-4">
-              {medicines.map((med) => (
-                <li
-                  key={med.id}
-                  className="flex justify-between items-center p-3 rounded bg-gray-800 border border-gray-700"
-                >
-                  <div>
-                    <p className="text-lg font-semibold">{med.name}</p>
-                    <p className="text-sm text-gray-400">{med.dose}</p>
-                    <p className="text-sm text-gray-400">{med.time}</p>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <button
-                      onClick={() => toggleTaken(med.id)}
-                      className={`px-3 py-1 rounded font-semibold ${
-                        med.taken
-                          ? "bg-green-600 hover:bg-green-500"
-                          : "bg-yellow-600 hover:bg-yellow-500"
-                      } transition text-white`}
-                    >
-                      {med.taken ? "Taken" : "Mark Taken"}
-                    </button>
-                    <button
-                      onClick={() => deleteMedicine(med.id)}
-                      className="px-3 py-1 rounded bg-red-600 hover:bg-red-500 transition text-white font-semibold"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            {/* Medicine List */}
+            <div>
+              <h2 className="text-3xl font-semibold mb-4 text-amber-800" style={{ fontFamily: "'Georgia', serif" }}>
+                Your Ayurvedic Medicines 🌿
+              </h2>
+              {medicines.length === 0 && (
+                <p className="text-amber-700 italic">You have no medicines added yet.</p>
+              )}
+              <ul className="space-y-5">
+                {medicines.map((med) => (
+                  <li
+                    key={med.id}
+                    className="flex justify-between items-center p-4 rounded bg-amber-200 border border-amber-400 shadow-inner"
+                    aria-label={`Medicine ${med.name}`}
+                  >
+                    <div>
+                      <p className="text-xl font-semibold">{med.name}</p>
+                      <p className="text-md text-amber-700">Dose: {med.dose}</p>
+                      <p className="text-md text-amber-700">Time: {med.time}</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => toggleTaken(med.id)}
+                        className={`px-4 py-2 rounded font-semibold transition shadow-md
+                          ${
+                            med.taken
+                              ? "bg-green-600 hover:bg-green-500 text-white"
+                              : "bg-yellow-500 hover:bg-yellow-400 text-amber-900"
+                          }
+                        `}
+                        aria-pressed={med.taken}
+                        aria-label={med.taken ? "Mark as not taken" : "Mark as taken"}
+                      >
+                        {med.taken ? "Taken ✅" : "Mark Taken 🌿"}
+                      </button>
+                      <button
+                        onClick={() => deleteMedicine(med.id)}
+                        className="px-4 py-2 rounded bg-red-500 hover:bg-red-400 text-white font-semibold shadow-md"
+                        aria-label={`Delete medicine ${med.name}`}
+                      >
+                        Delete ❌
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </section>
 
           {/* Add New Medicine */}
-          <section className="mb-6">
-            <h2 className="text-2xl font-bold mb-3">Add New Medicine</h2>
-            <div className="space-y-3">
+          <section className="mb-8 p-5 bg-amber-100 rounded-lg shadow-md" aria-label="Add new medicine form">
+            <h2 className="text-3xl font-semibold mb-4 text-amber-800" style={{ fontFamily: "'Georgia', serif" }}>
+              Add New Medicine 🌸
+            </h2>
+            <p className="mb-6 text-amber-700 italic max-w-lg">
+              Fill in the details below to add your Ayurvedic medicine. Use simple names and doses you understand.
+            </p>
+            <div className="space-y-4 max-w-lg">
+              <label className="block font-medium" htmlFor="newNameInput">
+                Medicine Name
+              </label>
               <input
+                id="newNameInput"
                 type="text"
-                placeholder="Medicine Name"
+                placeholder="E.g., Ashwagandha powder"
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
-                className="w-full p-3 rounded bg-gray-800 text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                className="w-full p-4 rounded border border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-600 text-amber-900 font-medium"
+                aria-describedby="nameHelp"
               />
+              <small id="nameHelp" className="block mb-2 text-amber-600">
+                Name of the medicine or herb.
+              </small>
+
+              <label className="block font-medium" htmlFor="newDoseInput">
+                Dose (Quantity)
+              </label>
               <input
+                id="newDoseInput"
                 type="text"
-                placeholder="Dose (e.g., 10 ml, 1 tablet)"
+                placeholder="E.g., 10 ml, 1 tsp, 2 tablets"
                 value={newDose}
                 onChange={(e) => setNewDose(e.target.value)}
-                className="w-full p-3 rounded bg-gray-800 text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                className="w-full p-4 rounded border border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-600 text-amber-900 font-medium"
+                aria-describedby="doseHelp"
               />
+              <small id="doseHelp" className="block mb-2 text-amber-600">
+                How much you take each time.
+              </small>
+
+              <label className="block font-medium" htmlFor="newTimeInput">
+                Time to Take Medicine
+              </label>
               <input
+                id="newTimeInput"
                 type="time"
                 value={newTime}
                 onChange={(e) => setNewTime(e.target.value)}
-                className="w-full p-3 rounded bg-gray-800 text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                className="w-full p-4 rounded border border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-600 text-amber-900 font-medium"
               />
+              <small className="block mb-4 text-amber-600">
+                Select the time you want to be reminded.
+              </small>
+
               <button
                 onClick={addMedicine}
-                className="w-full py-3 rounded bg-blue-700 hover:bg-blue-600 transition text-white font-semibold"
+                className="w-full py-4 rounded bg-green-600 hover:bg-green-500 text-white font-bold shadow-md transition"
               >
-                Add Medicine
+                Add Medicine 🌿
               </button>
             </div>
           </section>
 
-          {/* Send Email Reminders Button */}
-          <section>
+          {/* Send Email Reminders */}
+          <section className="mb-8 p-5 bg-amber-100 rounded-lg shadow-md">
             <button
               onClick={sendReminderEmailForAll}
-              className="w-full py-3 rounded bg-indigo-600 hover:bg-indigo-500 transition text-white font-semibold"
+              className="w-full py-4 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-bold shadow-md transition"
+              aria-label="Send reminder emails for all medicines"
             >
-              Send Reminder Emails for All
+              Send Reminder Emails ✉️
             </button>
+            <p className="mt-2 text-sm text-amber-700 italic">
+              You will receive reminder emails for all your medicines.
+            </p>
           </section>
+
+          {/* Help Section */}
+          <section className="text-left mt-12 p-6 bg-amber-200 rounded-lg shadow-md max-w-lg mx-auto">
+            <h3 className="text-2xl font-semibold mb-3">How to Use YuktiTracker</h3>
+            <p className="mb-3 text-amber-900">
+              1. Login or sign up with your email.
+              <br />
+              2. Add your Ayurvedic medicines with simple names and doses.
+              <br />
+              3. Set the time you want to take each medicine.
+              <br />
+              4. Mark medicines as taken when you consume them.
+              <br />
+              5. Use the reminder emails to never miss a dose!
+            </p>
+            <p className="italic text-amber-800">
+              “Health is the greatest gift. Nurture it daily with YuktiTracker.” 🌱
+            </p>
+          </section>
+          <div className="pt-5 text-center">
+            <a
+    href="https://rctechsolutions.com" // Replace with your URL or portfolio
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-purple-600 bg-purple-100 px-3 py-1 rounded hover:bg-purple-200 transition inline-block"
+  >
+    Developed with ❤️ by Rahul Chauhan
+  </a>
+          </div>
         </>
       )}
     </main>
